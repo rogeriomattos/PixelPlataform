@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://b3rsn27j4lj4q"]
+
+[ext_resource type="Texture2D" uid="uid://cgexlm05g85cd" path="res://tilemap-characters.png" id="1_i2kk5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vsblm"]
+size = Vector2(13, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3jg2s"]
+atlas = ExtResource("1_i2kk5")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7ky60"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3jg2s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 3)
+shape = SubResource("RectangleShape2D_vsblm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7ky60")
+flip_h = true
