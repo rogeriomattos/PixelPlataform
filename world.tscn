@@ -7,29 +7,38 @@
 [node name="World" type="Node2D"]
 
 [node name="Block" parent="." instance=ExtResource("1_o7fys")]
+texture_filter = 1
 position = Vector2(132, 95)
 
 [node name="Block7" parent="." instance=ExtResource("1_o7fys")]
+texture_filter = 1
 position = Vector2(114, 95)
 
 [node name="Block8" parent="." instance=ExtResource("1_o7fys")]
+texture_filter = 1
 position = Vector2(97, 95)
 
 [node name="Block2" parent="." instance=ExtResource("1_o7fys")]
+texture_filter = 1
 position = Vector2(186, 58)
 
 [node name="Block3" parent="." instance=ExtResource("1_o7fys")]
+texture_filter = 1
 position = Vector2(186, 77)
 
 [node name="Block4" parent="." instance=ExtResource("1_o7fys")]
+texture_filter = 1
 position = Vector2(168, 77)
 
 [node name="Block5" parent="." instance=ExtResource("1_o7fys")]
+texture_filter = 1
 position = Vector2(168, 95)
 
 [node name="Block6" parent="." instance=ExtResource("1_o7fys")]
+texture_filter = 1
 position = Vector2(150, 95)
 
 [node name="Player" parent="." instance=ExtResource("2_xthg7")]
+texture_filter = 1
 position = Vector2(140, 32)
 script = ExtResource("3_1nod5")
