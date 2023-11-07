@@ -1,19 +1,21 @@
-extends CharacterBody2D
+extends KinematicBody2D
 
-@export var JUMP_FORCE : int = -150;
-@export var JUMP_RELEASED_FORCE : int = -70;
-@export var MAX_SPEED : int = 50;
-@export var FRICTION : int = 20;
-@export var ACCELERATION : int = 20;
-@export var GRAVITY:int = 4;
-@export var ADDITIONAL_FALL_GRAVITY:int = 4;
+export var JUMP_FORCE : int = -150;
+export var JUMP_RELEASED_FORCE : int = -70;
+export var MAX_SPEED : int = 50;
+export var FRICTION : int = 20;
+export var ACCELERATION : int = 20;
+export var GRAVITY:int = 4;
+export var ADDITIONAL_FALL_GRAVITY:int = 4;
+
+var velocity = Vector2.ZERO
 
 func _physics_process(delta):
 	apply_gravity();
-	apply_horizontal_moviments();
 	apply_jump_moviments();
-	move_and_slide()
-	
+	apply_horizontal_moviments();
+	velocity = move_and_slide(velocity, Vector2.UP)
+
 func apply_gravity():
 	velocity.y += GRAVITY;
 	
@@ -37,6 +39,7 @@ func apply_acceleration(amount):
 func apply_jump_moviments(): 
 	if  is_on_floor():
 		if Input.is_action_pressed("ui_up"):
+			print('entrou 1')
 			velocity.y = JUMP_FORCE;
 	else: 
 		if Input.is_action_just_released("ui_up") && velocity.y < JUMP_RELEASED_FORCE:
