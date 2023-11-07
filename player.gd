@@ -10,11 +10,22 @@ export var ADDITIONAL_FALL_GRAVITY:int = 4;
 
 var velocity = Vector2.ZERO
 
+onready var animateSprite = $AnimatedSprite;
+
+func _ready():
+	animateSprite.frames = load("res://PlayerGreenSkin.tres")
+
 func _physics_process(delta):
 	apply_gravity();
-	apply_jump_moviments();
 	apply_horizontal_moviments();
+	apply_jump_moviments();
+	var was_in_air = !is_on_floor();
 	velocity = move_and_slide(velocity, Vector2.UP)
+	var just_landed = is_on_floor() && was_in_air;
+	if just_landed:
+		animateSprite.animation = "Run"
+		animateSprite.frame = 1
+		
 
 func apply_gravity():
 	velocity.y += GRAVITY;
@@ -22,10 +33,17 @@ func apply_gravity():
 func apply_horizontal_moviments(): 
 	var input = Vector2.ZERO;
 	input.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+
 	if input.x == 0:
 		apply_friction();
+		animateSprite.animation = "Idle";
 	else:
 		apply_acceleration(input.x);	
+		animateSprite.animation = "Run";
+		if input.x > 0:
+			animateSprite.flip_h = true;
+		else: 
+			animateSprite.flip_h = false;
 	pass;
 
 func apply_friction():
@@ -39,9 +57,9 @@ func apply_acceleration(amount):
 func apply_jump_moviments(): 
 	if  is_on_floor():
 		if Input.is_action_pressed("ui_up"):
-			print('entrou 1')
 			velocity.y = JUMP_FORCE;
 	else: 
+		animateSprite.animation = "Jump";
 		if Input.is_action_just_released("ui_up") && velocity.y < JUMP_RELEASED_FORCE:
 			velocity.y = JUMP_RELEASED_FORCE;
 		if velocity.y > 10:
