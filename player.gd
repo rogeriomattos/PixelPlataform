@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-export var JUMP_FORCE : int = -150;
+export var JUMP_FORCE : int = -160;
 export var JUMP_RELEASED_FORCE : int = -70;
 export var MAX_SPEED : int = 50;
 export var FRICTION : int = 20;
@@ -29,6 +29,7 @@ func _physics_process(delta):
 
 func apply_gravity():
 	velocity.y += GRAVITY;
+	velocity.y = min(velocity.y, 200);
 	
 func apply_horizontal_moviments(): 
 	var input = Vector2.ZERO;
