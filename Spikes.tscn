@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://tilemap_packed.png" type="Texture" id=1]
+[ext_resource path="res://Spikes.gd" type="Script" id=2]
+
+[node name="Spikes" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 156, 132 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 144, 54, 18, 18 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 153, 136, 153, 134, 151, 134, 151, 136, 150, 136, 150, 138, 149, 138, 149, 141, 155, 141, 163, 141, 163, 138, 162, 138, 162, 136, 161, 136, 161, 134, 159, 134, 159, 136, 158, 136, 158, 138, 157, 138, 155, 138, 154, 138, 154, 136 )
+
+[connection signal="body_shape_entered" from="." to="." method="_on_Spikes_body_shape_entered"]

@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Player
 
 export var JUMP_FORCE : int = -160;
 export var JUMP_RELEASED_FORCE : int = -70;
