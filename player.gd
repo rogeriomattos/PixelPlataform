@@ -1,13 +1,7 @@
 extends KinematicBody2D
 class_name Player
 
-export var JUMP_FORCE : int = -160;
-export var JUMP_RELEASED_FORCE : int = -70;
-export var MAX_SPEED : int = 80;
-export var FRICTION : int = 20;
-export var ACCELERATION : int = 20;
-export var GRAVITY:int = 4;
-export var ADDITIONAL_FALL_GRAVITY:int = 4;
+export(Resource) var moveData
 
 var velocity = Vector2.ZERO
 
@@ -15,6 +9,9 @@ onready var animateSprite = $AnimatedSprite;
 
 func _ready():
 	animateSprite.frames = load("res://PlayerGreenSkin.tres")
+
+func powerup():
+	moveData = load("res://FastPlayerMovementData.tres")
 
 func _physics_process(delta):
 	apply_gravity();
@@ -29,7 +26,7 @@ func _physics_process(delta):
 		
 
 func apply_gravity():
-	velocity.y += GRAVITY;
+	velocity.y += moveData.GRAVITY;
 	velocity.y = min(velocity.y, 200);
 	
 func apply_horizontal_moviments(): 
@@ -49,21 +46,21 @@ func apply_horizontal_moviments():
 	pass;
 
 func apply_friction():
-	velocity.x = move_toward(velocity.x, 0, FRICTION)
+	velocity.x = move_toward(velocity.x, 0, moveData.FRICTION)
 	pass;
 
 func apply_acceleration(amount):
-	velocity.x = move_toward(velocity.x, MAX_SPEED * amount, ACCELERATION)
+	velocity.x = move_toward(velocity.x, moveData.MAX_SPEED * amount, moveData.ACCELERATION)
 	pass;
 
 func apply_jump_moviments(): 
 	if  is_on_floor():
 		if Input.is_action_pressed("ui_up"):
-			velocity.y = JUMP_FORCE;
+			velocity.y = moveData.JUMP_FORCE;
 	else: 
 		animateSprite.animation = "Jump";
-		if Input.is_action_just_released("ui_up") && velocity.y < JUMP_RELEASED_FORCE:
-			velocity.y = JUMP_RELEASED_FORCE;
+		if Input.is_action_just_released("ui_up") && velocity.y < moveData.JUMP_RELEASED_FORCE:
+			velocity.y = moveData.JUMP_RELEASED_FORCE;
 		if velocity.y > 10:
-			velocity.y += ADDITIONAL_FALL_GRAVITY;
+			velocity.y += moveData.ADDITIONAL_FALL_GRAVITY;
 	pass;	
