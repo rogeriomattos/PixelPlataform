@@ -1,11 +1,16 @@
 extends KinematicBody2D
 class_name Player
 
+enum {MOVE, CLIMB}
+
 export(Resource) var moveData
 
 var velocity = Vector2.ZERO
+var state = MOVE;
 
 onready var animateSprite = $AnimatedSprite;
+onready var ledderCheck = $LedderCheck;
+
 
 func _ready():
 	animateSprite.frames = load("res://PlayerGreenSkin.tres")
@@ -14,8 +19,27 @@ func powerup():
 	moveData = load("res://FastPlayerMovementData.tres")
 
 func _physics_process(delta):
+	
+	var input = Vector2.ZERO;
+	input.x = Input.get_axis('ui_left', "ui_right")
+	input.y = Input.get_axis("ui_up", "ui_down")
+	
+	if state == MOVE: 
+		move_state(input)
+	elif state == CLIMB: 
+		climb_state(input)
+	
+func climb_state(input):
+	if !is_on_ledder():
+		state = MOVE
+	velocity = input * 50;
+	velocity = move_and_slide(velocity, Vector2.UP)
+	pass
+func move_state(input):
+	if is_on_ledder() && Input.is_action_just_pressed("ui_up"):
+		state = CLIMB
 	apply_gravity();
-	apply_horizontal_moviments();
+	apply_horizontal_moviments(input);
 	apply_jump_moviments();
 	var was_in_air = !is_on_floor();
 	velocity = move_and_slide(velocity, Vector2.UP)
@@ -23,16 +47,17 @@ func _physics_process(delta):
 	if just_landed:
 		animateSprite.animation = "Run"
 		animateSprite.frame = 1
-		
+	pass
+
+func is_on_ledder():
+	var collider = ledderCheck.get_collider()
+	return ledderCheck.is_colliding() && collider != Ledder;
 
 func apply_gravity():
 	velocity.y += moveData.GRAVITY;
 	velocity.y = min(velocity.y, 200);
 	
-func apply_horizontal_moviments(): 
-	var input = Vector2.ZERO;
-	input.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-
+func apply_horizontal_moviments(input): 
 	if input.x == 0:
 		apply_friction();
 		animateSprite.animation = "Idle";

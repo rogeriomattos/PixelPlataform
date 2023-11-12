@@ -24,3 +24,10 @@ flip_h = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+
+[node name="LedderCheck" type="RayCast2D" parent="."]
+position = Vector2( 0, -9 )
+enabled = true
+cast_to = Vector2( 0, 22 )
+collide_with_areas = true
+collide_with_bodies = false
