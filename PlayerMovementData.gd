@@ -8,3 +8,5 @@ export var FRICTION : int = 20;
 export var ACCELERATION : int = 20;
 export var GRAVITY:int = 4;
 export var ADDITIONAL_FALL_GRAVITY:int = 4;
+export var CLIMB_SPEED: int = 50;
+export var DOUBLE_JUMP_COUNT:int = 1;
